@@ -41,10 +41,19 @@ body {
 
 .card-row {
   display: flex;
+  width: auto;
+  margin: 0;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: flex-end;
+  justify-content: center;
   flex-wrap: wrap;
 }
+
+/* .card-row {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 0px;
+} */
 
 .header-logo {
   float: left;
