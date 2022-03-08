@@ -13,10 +13,8 @@ login_manager.init_app(app)
 
 
 @app.route("/")
-@app.route("/index")
-def index():
-    user = "Ученик Яндекс.Лицея"
-    return render_template("index.html", title='Заголовок')
+def main():
+    return render_template("main.html", title='Главная страница')
 
 
 @login_manager.user_loader
@@ -40,6 +38,11 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+@app.route("/register")
+def register():
+    return render_template("register.html", title='Регистрация')
+
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -47,8 +50,13 @@ def logout():
     return redirect("/")
 
 
+@app.route("/catalog")
+def catalog():
+    return render_template("catalog.html", title='Каталог')
+
+
+
 def main():
-    db_session.global_init("db/mars_explorer.db")
     app.run()
 
 

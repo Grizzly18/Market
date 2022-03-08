@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="album py-5 bg-light">
+    <div class="catalog-menu bg-light">
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 30em;">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <h2 style="padding-top: 1em;">Одежда и обувь</h2>
+        <ul class="main-nav clearfix bg-light catalog-menu-2" style="padding-top: 0.5em;">
+            <li><h4>Женщинам</h4></li>
+            <li><a href="#">Платья и сарафаны</a></li>
+            <li><a href="#">Джемперы, свитеры</a></li>
+            <li><a href="#">Верхняя одежда</a></li>
+            <li><a href="#">Водолазки</a></li>
+            <li><a href="#">Блузки и рубашки</a></li>
+            <li><button class="btn btn-link" type="submit"><small>Ещё<ion-icon name="arrow-down-outline"></ion-icon></small></button></li>
+        </ul>
+        <ul class="main-nav clearfix bg-light catalog-menu-2" style="padding-top: 0.5em;">
+            <li><h4>Мужчинам</h4></li>
+            <li><a href="#">Верхняя одежда</a></li>
+            <li><a href="#">Спортивная одежда</a></li>
+            <li><a href="#">Свиттеры и кардиганы</a></li>
+            <li><a href="#">Пуловеры и водолызки</a></li>
+            <li><a href="#">Футболки и майки</a></li>
+            <li><button class="btn btn-link" type="submit"><small>Ещё<ion-icon name="arrow-down-outline"></ion-icon></small></button></li>
+        </ul>
+        <ul class="main-nav clearfix bg-light catalog-menu-2" style="padding-top: 0.5em;">
+            <li><h4>Детям</h4></li>
+            <li><a href="#">Для девочек</a></li>
+            <li><a href="#">Для мальчиков</a></li>
+            <li><a href="#">Для малышей</a></li>
+            <li><a href="#">Обувь</a></li>
+            <li><a href="#">Школьная одежда и обувь</a></li>
+            <li><button class="btn btn-link" type="submit"><small>Ещё<ion-icon name="arrow-down-outline"></ion-icon></small></button></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
