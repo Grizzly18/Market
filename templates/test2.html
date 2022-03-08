@@ -17,7 +17,20 @@
           <img src="/static/img/logo3.png" alt="The Great Keksby" height="100">
         </div>
         <ul class="main-nav clearfix header-info" style="padding-top: 1em;">
-          <li><button onclick="myFunction()" class="btn btn-link dropbtn">Каталог</button></li>
+          <li>
+            <div class="dropdown">
+              <button onclick="myFunction()" class="btn btn-link dropbtn">Каталог</button>
+              <div class="dropdown-content" id="myDropdown">
+                <button class="btn btn-link">Link 1</button>
+                <button class="btn btn-link">Link 2</button>
+                <button class="btn btn-link">Link 3</button>
+                <a href="#myCarousel">Link 1</a>
+                <a href="##myCarousel32">Link 2</a>
+                <a href="##myCarousel232134">Link 3</a>
+              </div>
+            </div>
+
+          </li>
           <li><a href="#">Помощь</a></li>
           <li><a href="#">Избранное</a></li>
         </ul>
@@ -27,14 +40,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Каталог  -->
-    <div class="dropdown-content container" id="myDropdown">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
-    </div>
-
     <main>
       <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
