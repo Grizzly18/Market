@@ -21,6 +21,10 @@
             <div class="dropdown">
               <button onclick="myFunction()" class="btn btn-link dropbtn">Каталог</button>
               <div class="dropdown-content" id="myDropdown">
+                <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
                 <button class="btn btn-link">Link 1</button>
                 <button class="btn btn-link">Link 2</button>
                 <button class="btn btn-link">Link 3</button>
@@ -372,18 +376,18 @@
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
-    window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-        let dropdowns = document.getElementsByClassName("dropdown-content");
-        let i;
-        for (i = 0; i < dropdowns.length; i++) {
-          let openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
-    }
+    // window.onclick = function(event) {
+    //   if (!event.target.matches('.dropbtn')) {
+    //     let dropdowns = document.getElementsByClassName("dropdown-content");
+    //     let i;
+    //     for (i = 0; i < dropdowns.length; i++) {
+    //       let openDropdown = dropdowns[i];
+    //       if (openDropdown.classList.contains('show')) {
+    //         openDropdown.classList.remove('show');
+    //       }
+    //     }
+    //   }
+    // }
   </script>
   <script src="/static/assets/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
