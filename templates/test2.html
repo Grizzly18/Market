@@ -68,27 +68,40 @@
       </div>
     </div>
     <main>
-        <div class="form-signin container-login text-center">
-            <form action="" method="post">
-                <h1>ВОЙТИ</h1>
-                <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 4em; margin-top: 2em;">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 3em;">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
-            
-                <div class="checkbox mb-3" style="margin-bottom: 3em;">
-                    <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary" style="margin: auto; width: 50%;" type="submit">Sign in</button>
-                <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
-            </form>
-        </div>
+      <div class="container-login" style="height: 1040px;">
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 30em;">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+          <h2 style="padding-top: 1em;">Одежда и обувь</h2>
+          <ul class="main-nav clearfix catalog-menu-2" style="padding-top: 0.5em; margin-right: 3em;">
+              <li><h4>Женщинам</h4></li>
+              <li><a href="#">Платья и сарафаны</a></li>
+              <li><a href="#">Джемперы, свитеры</a></li>
+              <li><a href="#">Верхняя одежда</a></li>
+              <li><a href="#">Водолазки</a></li>
+              <li><a href="#">Блузки и рубашки</a></li>
+              <li><button class="btn btn-link" type="submit"><small>Ещё<ion-icon name="arrow-down-outline"></ion-icon></small></button></li>
+          </ul>
+          <ul class="main-nav clearfix catalog-menu-2" style="padding-top: 0.5em; margin-right: 3em;">
+              <li><h4>Мужчинам</h4></li>
+              <li><a href="#">Верхняя одежда</a></li>
+              <li><a href="#">Спортивная одежда</a></li>
+              <li><a href="#">Свиттеры и кардиганы</a></li>
+              <li><a href="#">Пуловеры и водолызки</a></li>
+              <li><a href="#">Футболки и майки</a></li>
+              <li><button class="btn btn-link" type="submit"><small>Ещё<ion-icon name="arrow-down-outline"></ion-icon></small></button></li>
+          </ul>
+          <ul class="main-nav clearfix catalog-menu-2" style="padding-top: 0.5em; margin-right: 3em;">
+              <li><h4>Детям</h4></li>
+              <li><a href="#">Для девочек</a></li>
+              <li><a href="#">Для мальчиков</a></li>
+              <li><a href="#">Для малышей</a></li>
+              <li><a href="#">Обувь</a></li>
+              <li><a href="#">Школьная одежда и обувь</a></li>
+              <li><button class="btn btn-link" type="submit"><small>Ещё<ion-icon name="arrow-down-outline"></ion-icon></small></button></li>
+          </ul>
+      </div>
 
       <div class="container">
         <footer class="py-5">

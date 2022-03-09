@@ -9,5 +9,4 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('Имя пользователя', validators=[DataRequired()])
-    modified_date = DateField('Дата регистрации', format='%Y-%m-%d')
     submit = SubmitField('Войти')
