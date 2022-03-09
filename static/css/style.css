@@ -173,6 +173,14 @@ body {
 
 .show {display:block;}
 
+.container-login {
+  padding: 2em;
+  padding-bottom: 10em;
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+}
+
 .dropdown-content a {
   color: black;
   padding: 12px 16px;
@@ -837,3 +845,6 @@ body {
   vertical-align: -.125em;
   fill: currentColor;
 }
+
+
+
