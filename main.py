@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from data.users import User
 from forms.user import RegisterForm
 from data.autor import LoginForm
+from p import parser
 
 
 app = Flask(__name__)
@@ -73,9 +74,14 @@ def catalog():
     return render_template("catalog.html", title='Каталог')
 
 
+@app.route("/search/q=<string:product>")
+def search(product):
+    return render_template("catalog.html", title=product, cards=parser(product)[:5])
+
+
 @app.route("/")
 def main_page():
-    return render_template("main.html", title='Главная страница')
+    return render_template("main.html", title='Главная страница', cards=parser(product="рюкзак")[:5])
 
 
 def main():

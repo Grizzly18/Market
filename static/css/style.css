@@ -142,6 +142,35 @@ body {
   padding-right: 1em;
 }
 
+.catalog-menu-3 {
+  width: 15em;
+}
+
+.catalog-menu-3 a,
+.catalog-menu-3 h4 {
+  white-space: nowrap;
+  padding: 0.1em;
+  text-transform: none;
+}
+
+.catalog-menu-3 a {
+  padding: 0.3em;
+  margin-left: 0.6em;
+  margin-right: 1.5em;
+  font-size: large;
+}
+
+.catalog-menu-2 a,
+.catalog-menu-2 h4 {
+  white-space: nowrap;
+  padding: 0.1em;
+  text-transform: none;
+}
+
+.catalog-menu-3 li {
+  line-height: 1.8em;
+}
+
 .catalog-menu {
   padding: 1em;
   color: #000000;

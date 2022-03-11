@@ -1,10 +1,10 @@
-from calendar import prcal
 import requests
 from bs4 import BeautifulSoup as BS
 import urllib.request
 import random
 import urllib3
 import time
+import re
 
 
 HEADERS = {
@@ -26,21 +26,35 @@ def load_img_from_web(link_web, link_img):
     out.close()
 
 
+def sneakerhead(product):
+    link = f"https://sneakerhead.ru/search/?q={product}"
+    response = requests.get(link, headers=HEADERS)
+    soup = BS(response.content, "lxml")
+    result = []
+    print(soup)
+    for el in soup.select(".product-cards__item"):
+        try:
+            result.append((el.select("source")[0]['srcset'], el.select(".product-card__price-value")[0].text, 
+                        el.select(".product-card__link")[0].text, 
+                        "https://street-beat.ru/" + el.select("product-card__link")[0]['href']))
+        except Exception:
+            pass
+    return result
+
+
 def lamoda(product, sort=None, male=None):
     link = f"https://www.lamoda.ru//catalogsearch/result/?q={product}"
     if (male is not None):
-        link += f"&gender_section={male}"
+        link += f"&gender_section={male}&multigender_page=1"
     if (sort is not None): # discount - скидка;  price_desc - по убыванию цен; price_asc - по возрастанию цен
         link += f"&sort={sort}"
     response = requests.get(link)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".x-product-card__card"):
-        # Далеко не все фотки прогружаются
         try:
             result.append((el.select("img")[0]['src'], el.select("span")[0].text, 
-                        el.select(".x-product-card-description__brand-name")[0].text, 
-                        el.select(".x-product-card-description__product-name")[0].text, 
+                        el.select(".x-product-card-description__brand-name")[0].text + " " + el.select(".x-product-card-description__product-name")[0].text, 
                         "https://www.lamoda.ru" + el.select("a")[0]['href']))
         except Exception:
             pass
@@ -53,7 +67,6 @@ def street_beat(product):
     response = requests.get(link, headers=HEADERS)
     soup = BS(response.content, "lxml")
     result = []
-    print(soup)
     for el in soup.select(".product-container__standard"):
         try:
             result.append((el.select("img")[0]['src'], el.select("span")[0].text, 
@@ -69,14 +82,10 @@ def superstep(product):
     response = requests.get(link, headers=HEADERS)
     soup = BS(response.content, "lxml")
     result = []
-    for el in soup.select(".product-item col-sm-4 col-xs-6"):
-        # Далеко не все фотки прогружаются
+    for el in soup.select(".product-item"):
         try:
-            print(el.select(".product-image-wrapper a")[0]['href'])
-            response2 = requests.get(el.select(".product-image-wrapper a")[0]['href'])
-            soup2 = BS(response2.content, "lxml")
-            result.append((soup2.select("img")[0]['src'], el.select("span")[0].text, 
-                           el.select(".js-catalog-card-click")[0].text,
+            result.append(("https://superstep.ru" + el.select(".product-item-image")[0]['src'], el.select("span")[0].text, 
+                           el.select(".product-name")[0].text.strip(),
                            "https://superstep.ru" + el.select(".product-image-wrapper a")[0]['href']))
         except Exception:
             pass
@@ -99,8 +108,5 @@ def asos(product): # НА АНГЛИЙСКОМ
     return result
 
 
-# product = str(input())
-product = "рюкзак"
-for i in superstep(product):
-    print(i)
-
+def parser(product):
+    return lamoda(product)
