@@ -1,2 +1,3 @@
 from . import users
-from . import autor
+from . import favorite
+from . import RequestHistory

@@ -1,19 +1,18 @@
+import flask
 from flask import Flask, make_response, render_template, redirect
 from data import db_session
 from requests import *
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from data.users import User
 from forms.user import RegisterForm
 from data.autor import LoginForm
-from p import parser
+from p import parser, popular
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
 
 
 @login_manager.user_loader
@@ -76,12 +75,22 @@ def catalog():
 
 @app.route("/search/q=<string:product>")
 def search(product):
-    return render_template("product.html", title=product, cards=parser(product="рюкзак")[:5])
+    return render_template("product.html", title=product, cards=parser(product="рюкзак"))
 
 
 @app.route("/")
 def main_page():
-    return render_template("main.html", title='Главная страница', cards=parser(product="рюкзак")[:5])
+    return render_template("main.html", title='Главная страница', cards=popular()[:5])
+
+
+@app.route("/favorite")
+def favorite():
+    return render_template("favorite.html",  title="Избранное", cards=parser(product="рюкзак"))
+
+
+@app.route("/help")
+def help():
+    return render_template("help.html", title='Помощь', cards=parser(product="рюкзак")[:5])
 
 
 def main():
