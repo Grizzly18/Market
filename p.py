@@ -55,7 +55,8 @@ def lamoda(product, sort=None, male=None):
         try:
             result.append((el.select("img")[0]['src'], el.select("span")[0].text, 
                         el.select(".x-product-card-description__brand-name")[0].text + " " + el.select(".x-product-card-description__product-name")[0].text, 
-                        "https://www.lamoda.ru" + el.select("a")[0]['href']))
+                        "https://www.lamoda.ru" + el.select("a")[0]['href'],
+                        "lamoda"))
         except Exception:
             pass
     return result

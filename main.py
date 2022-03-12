@@ -76,7 +76,7 @@ def catalog():
 
 @app.route("/search/q=<string:product>")
 def search(product):
-    return render_template("catalog.html", title=product, cards=parser(product)[:5])
+    return render_template("product.html", title=product, cards=parser(product="рюкзак")[:5])
 
 
 @app.route("/")
