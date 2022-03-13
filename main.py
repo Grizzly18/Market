@@ -6,7 +6,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from data.users import User
 from forms.user import RegisterForm
 from data.autor import LoginForm
-from p import parser, popular
+from Parser import parser, popular
+from functions import add_db
 
 
 app = Flask(__name__)
@@ -80,7 +81,7 @@ def search(product):
 
 @app.route("/")
 def main_page():
-    return render_template("main.html", title='Главная страница', cards=popular()[:5])
+    return render_template("main.html", title='Главная страница', cards=add_db(popular()[:5]))
 
 
 @app.route("/add-favorite", methods=['GET', 'POST'])

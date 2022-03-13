@@ -23,7 +23,7 @@ def load_img_from_web(link_web, link_img):
 
 def sneakerhead(product):
     link = f"https://sneakerhead.ru/search/?q={product}"
-    response = requests.get(link, headers=HEADERS)
+    response = requests.get(link, headers=HEADERS, timeout=3)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".product-cards__item"):
@@ -43,7 +43,7 @@ def lamoda(product, sort=None, male=None): # &page=2
         link += f"&gender_section={male}&multigender_page=1"
     if (sort is not None): # discount - скидка;  price_desc - по убыванию цен; price_asc - по возрастанию цен
         link += f"&sort={sort}"
-    response = requests.get(link)
+    response = requests.get(link, timeout=3)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".x-product-card__card"):
@@ -75,7 +75,7 @@ def lamoda(product, sort=None, male=None): # &page=2
 
 def superstep(product):
     link = f"https://superstep.ru/catalog/?q={product}"
-    response = requests.get(link, headers=HEADERS)
+    response = requests.get(link, headers=HEADERS, timeout=3)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".product-item"):
@@ -92,7 +92,7 @@ def superstep(product):
 def asos(product): # НА АНГЛИЙСКОМ
     product = translator.translate(product)
     link = f"https://www.asos.com/en/search/?q={product}"
-    response = requests.get(link, headers=HEADERS)
+    response = requests.get(link, headers=HEADERS, timeout=3)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select("._3TqU78D"):
@@ -107,19 +107,24 @@ def asos(product): # НА АНГЛИЙСКОМ
 
 
 def popular():
-    prods = ["Верхнаяя одежда", "Спортивная одежда", "Обувь", "Футболки и майки", "Платье", "Водолазки"]
+    prods = ["Верхнаяя одежда", "Спортивная одежда", "Обувь", "Футболки и майки", "Платье", "Водолазки", "Брюки", "Толстовки и свитшоты", 
+             "Пиджаки", "Костюмы", "Аксессуары", "Шорты", "Рубашки"]
     p = []
     while (len(p) < 5):
         res = random.randint(1, 4)
-        if res == 1:
-            p += lamoda(prods[random.randint(0, len(prods) - 1)])
-        if res == 2:
-            p += asos(prods[random.randint(0, len(prods) - 1)])
-        if res == 3:
-            p += superstep(prods[random.randint(0, len(prods) - 1)])
-        if res == 4:
-            p += sneakerhead(prods[random.randint(0, len(prods) - 1)])
+        try:
+            if res == 1:
+                p += lamoda(prods[random.randint(0, len(prods) - 1)])
+            if res == 2:
+                p += asos(prods[random.randint(0, len(prods) - 1)])
+            if res == 3:
+                p += superstep(prods[random.randint(0, len(prods) - 1)])
+            if res == 4:
+                p += sneakerhead(prods[random.randint(0, len(prods) - 1)])
+        except Exception:
+            pass
     return p
+
 
 def parser(product):
     return lamoda(product)

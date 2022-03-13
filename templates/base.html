@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <title>{{ title }}</title>
     <link href="/static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="carousel.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link href="carousel.css" rel="stylesheet">
   </head>
   <body>
     <div class="page-header">
@@ -65,7 +63,6 @@
             <!-- <a class="firstbtn btn-quick-order" href="/logout">{{ current_user.name }}</a> -->
             <a class="firstbtn btn-quick-order" href="/logout" style="border: none; padding: 0;"><ion-icon style="font-size: 64px;" name="person-circle-outline"></ion-icon></a>
             <div class="dropdown">
-              <button onclick="myFunction()" class="btn btn-link dropbtn" id="catalog">Каталог</button>
               <div class="dropdown-content bg-light" id="myDropdown" style="width: 1040px;">
                 <div class="catalog-menu bg-light">
                   <form class="d-flex">
@@ -177,15 +174,7 @@
       </div>
     </main>
   </body>
-  <script>
-    function myFunction() {
-        if (!(window.matchMedia('(min-device-aspect-ratio: 16/9)').matches || window.matchMedia('(min-device-aspect-ratio: 16/10)').matches)) {
-          window.location.href = 'catalog';
-        } else {
-          document.getElementById("myDropdown").classList.toggle("show");
-        }
-    }
-  </script>
+  <script src="/static/js/base.js"></script>
   <script src="/static/assets/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
