@@ -14,7 +14,8 @@ def add_db(data):
             image=product[0],
             price=product[1],
             info=product[2],
-            url=product[3]
+            url=product[3],
+            brand=product[4]
         )
         db_sess.add(Prod)
         db_sess.commit()

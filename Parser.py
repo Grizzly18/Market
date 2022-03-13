@@ -23,7 +23,7 @@ def load_img_from_web(link_web, link_img):
 
 def sneakerhead(product):
     link = f"https://sneakerhead.ru/search/?q={product}"
-    response = requests.get(link, headers=HEADERS, timeout=3)
+    response = requests.get(link, headers=HEADERS, timeout=1)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".product-cards__item"):
@@ -43,7 +43,7 @@ def lamoda(product, sort=None, male=None): # &page=2
         link += f"&gender_section={male}&multigender_page=1"
     if (sort is not None): # discount - скидка;  price_desc - по убыванию цен; price_asc - по возрастанию цен
         link += f"&sort={sort}"
-    response = requests.get(link, timeout=3)
+    response = requests.get(link, timeout=1)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".x-product-card__card"):
@@ -75,7 +75,7 @@ def lamoda(product, sort=None, male=None): # &page=2
 
 def superstep(product):
     link = f"https://superstep.ru/catalog/?q={product}"
-    response = requests.get(link, headers=HEADERS, timeout=3)
+    response = requests.get(link, headers=HEADERS, timeout=1)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".product-item"):
@@ -92,7 +92,7 @@ def superstep(product):
 def asos(product): # НА АНГЛИЙСКОМ
     product = translator.translate(product)
     link = f"https://www.asos.com/en/search/?q={product}"
-    response = requests.get(link, headers=HEADERS, timeout=3)
+    response = requests.get(link, headers=HEADERS, timeout=1)
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select("._3TqU78D"):

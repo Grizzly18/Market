@@ -13,3 +13,4 @@ class Product(SqlAlchemyBase, UserMixin):
     price = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     info = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     url = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    brand = sqlalchemy.Column(sqlalchemy.String, nullable=True)

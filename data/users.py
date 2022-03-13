@@ -29,4 +29,5 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
-    #jobs = orm.relation("Jobs", back_populates='user')
+    favorite = orm.relationship("Favorite", back_populates="user")
+    history = orm.relationship("History", back_populates="user")

@@ -1,11 +1,15 @@
 import flask
-from flask import Flask, make_response, render_template, redirect
+from flask import Flask, make_response, render_template, redirect, flash
 from data import db_session
+from sqlalchemy import update
 from requests import *
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from data.RequestHistory import History
+from data.favorite import Favorite
 from data.users import User
 from forms.user import RegisterForm
 from data.autor import LoginForm
+from data.product import Product
 from Parser import parser, popular
 from functions import add_db
 
@@ -58,6 +62,19 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+        s = db_sess.query(User).filter(User.email == form.email.data).first()
+        Fav = Favorite(
+            FavoriteProducts="",
+            user_id=s.id
+        )
+        His = History(
+            History="",
+            user_id=s.id
+        )
+        db_sess.add(Fav)
+        db_sess.add(His)
+        db_sess.commit()
+        logout_user()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
@@ -76,7 +93,7 @@ def catalog():
 
 @app.route("/search/q=<string:product>")
 def search(product):
-    return render_template("product.html", title=product, cards=parser(product="рюкзак"))
+    return render_template("product.html", title=product, cards=add_db(parser(product=product)))
 
 
 @app.route("/")
@@ -84,17 +101,48 @@ def main_page():
     return render_template("main.html", title='Главная страница', cards=add_db(popular()[:5]))
 
 
+@app.route("/delete-favorite", methods=['GET', 'POST'])
+def delete_favorite(): 
+    try:
+        if (flask.request.method == 'POST'):
+            db_sess = db_session.create_session()
+            prod_id = flask.request.data.decode()
+            s = db_sess.query(Favorite).filter(Favorite.user_id == current_user.id).first()
+            t = s.FavoriteProducts.split(',')
+            t.remove(prod_id)
+            s.FavoriteProducts = (','.join(t)).lstrip(',')
+            db_sess.commit()
+            return redirect('/favorite')
+    except Exception:
+        return redirect('/favorite')
+
+
 @app.route("/add-favorite", methods=['GET', 'POST'])
-def add_favorite():
-    if (flask.request.method == 'POST'):
-        print(flask.request.data.decode())
-        print(1)
+def add_favorite(): 
+    try:
+        if (flask.request.method == 'POST'):
+            db_sess = db_session.create_session()
+            prod_id = flask.request.data.decode()
+            s = db_sess.query(Favorite).filter(Favorite.user_id == current_user.id).first()
+            if prod_id not in s.FavoriteProducts:
+                s.FavoriteProducts = (s.FavoriteProducts + f",{prod_id}").lstrip(',')
+                db_sess.commit()
+    except Exception:
+        # flash('Вы успешно вошли в систему')
+        pass
     return render_template("main.html",  title="Избранное", cards=parser(product="рюкзак"))
 
 
 @app.route("/favorite")
 def favorite():
-    return render_template("favorite.html",  title="Избранное", cards=parser(product="рюкзак"))
+    db_sess = db_session.create_session()
+    s = db_sess.query(Favorite).filter(Favorite.user_id == current_user.id).first().FavoriteProducts.split(',')
+    data = []
+    for prod in s:
+        if prod != '':
+            temp = db_sess.query(Product).filter(Product.id == prod).first()
+            data.append((temp.image, temp.price, temp.info, temp.url, temp.brand, temp.id))
+    return render_template("favorite.html",  title="Избранное", cards=data)
 
 
 @app.route("/help")
