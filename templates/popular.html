@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+    <div class="album py-5 bg-light">
+        <h1 class="album-title">Популярное</h1>
+        <div class="card-row">
+        {% for card in cards %}  
+        <div>
+            <div class="card shadow-sm" style="width: 15rem; margin-right: 1em;">
+            <img src={{card[0]}} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ card[2] }}</h5>
+                <p class="card-text">{{ card[1] }} <br> <small>{{ card[4] }}</small></p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href={{card[3]}} class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                    <button type="submit" class="btn send-card" value={{card[5]}}><ion-icon size="large" name="heart-outline"></ion-icon></button>
+                </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+<script src="/static/js/AddFavorite.js"></script>
+{% endblock %}

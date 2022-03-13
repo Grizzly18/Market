@@ -86,6 +86,14 @@ body {
   gap: 0px;
 } */
 
+.computer-login {
+  width: 350px;
+}
+
+.computer-login-logo {
+  float: right;
+}
+
 .header-logo {
   float: left;
 }
@@ -160,6 +168,27 @@ body {
   background-color: rgb(36, 36, 36);
   z-index: 1;
   padding-right: 1em;
+}
+
+.dropdown-content-login {
+  display: none;
+  margin-top: 3.2em;
+  margin-left: 0;
+  width: 350px;
+  position: absolute;
+  background-color: rgb(36, 36, 36);
+  z-index: 1;
+  padding-right: 1em;
+}
+
+.dropdown-content-login h2 {
+  text-align: center;
+  line-height: 2em;
+}
+
+.dropdown-content-login a {
+  width: auto;
+  text-align: center;
 }
 
 .catalog-menu-3 {

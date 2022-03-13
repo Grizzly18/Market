@@ -91,6 +91,11 @@ def catalog():
     return render_template("catalog.html", title='Каталог')
 
 
+@app.route("/profile")
+def profile():
+    return render_template("profile.html", title='Профиль')
+
+
 @app.route("/search/q=<string:product>")
 def search(product):
     return render_template("product.html", title=product, cards=add_db(parser(product=product)))
@@ -98,7 +103,19 @@ def search(product):
 
 @app.route("/")
 def main_page():
-    return render_template("main.html", title='Главная страница', cards=add_db(popular()[:5]))
+    cards = add_db(popular()[:5])
+    historycards = []
+    try:
+        db_sess = db_session.create_session()
+        s = db_sess.query(History).filter(History.user_id == current_user.id).first().History.split(',')
+        print(s)
+        if s != ['']:
+            historycards = add_db(parser(s[-1])[:5])
+        if len(historycards) < 5:
+            historycards = cards
+    except:
+        historycards = cards
+    return render_template("main.html", title='Главная страница', cards=cards, historycards=historycards)
 
 
 @app.route("/delete-favorite", methods=['GET', 'POST'])
@@ -143,6 +160,26 @@ def favorite():
             temp = db_sess.query(Product).filter(Product.id == prod).first()
             data.append((temp.image, temp.price, temp.info, temp.url, temp.brand, temp.id))
     return render_template("favorite.html",  title="Избранное", cards=data)
+
+
+@app.route("/popular")
+def popular_products():
+    return render_template("popular.html", title='Популярное', cards=add_db(popular(20)))
+
+
+@app.route("/history")
+def history():
+    historycards = []
+    try:
+        db_sess = db_session.create_session()
+        s = db_sess.query(History).filter(History.user_id == current_user.id).first().History.split(',')
+        if s != ['']:
+            historycards = add_db(parser(s[-1]))
+        if len(historycards) < 5:
+            historycards = add_db(popular(20))
+    except:
+        historycards = add_db(popular(20))
+    return render_template("history.html", title='На основе просмотров', cards=historycards)
 
 
 @app.route("/help")

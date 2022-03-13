@@ -1,12 +1,9 @@
-from math import prod
-from unittest import result
 import requests
 from translate import Translator
 from bs4 import BeautifulSoup as BS
 import urllib.request
 import random
 from datetime import datetime
-import threading
 
 translator = Translator(from_lang="russian",to_lang="english")
 HEADERS = {
@@ -106,12 +103,17 @@ def asos(product): # НА АНГЛИЙСКОМ
     return result
 
 
-def popular():
+def popular(count=5):
     prods = ["Верхнаяя одежда", "Спортивная одежда", "Обувь", "Футболки и майки", "Платье", "Водолазки", "Брюки", "Толстовки и свитшоты", 
-             "Пиджаки", "Костюмы", "Аксессуары", "Шорты", "Рубашки"]
+             "Пиджаки", "Костюмы", "Аксессуары", "Шорты", "Рубашки", "Платья", "Nike", "Adidas", "Polo", "Юбки"]
     p = []
-    while (len(p) < 5):
+    req = []
+    while (len(p) < count):
         res = random.randint(1, 4)
+        prod = random.randint(0, len(prods) - 1)
+        if (res, prod, ) in req:
+            continue
+        req.append((res, prod,))
         try:
             if res == 1:
                 p += lamoda(prods[random.randint(0, len(prods) - 1)])
@@ -126,6 +128,22 @@ def popular():
     return p
 
 
-def parser(product):
-    return lamoda(product)
-
+def parser(product, count=20):
+    time = datetime.now()
+    p =  []
+    while (len(p) < count):
+        if ((datetime.now() - time).seconds > 8):
+            return "К сожалению, мы ничего не смогли найти"
+        res = random.randint(1, 4)
+        try:
+            if res == 1:
+                p += lamoda(product)
+            if res == 2:
+                p += asos(product)
+            if res == 3:
+                p += superstep(product)
+            if res == 4:
+                p += sneakerhead(product)
+        except Exception:
+            pass
+    return p
