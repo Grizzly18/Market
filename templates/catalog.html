@@ -3,10 +3,10 @@
 {% block content %}
 <div class="album py-5 bg-light" style="height: 1040px;">
     <div class="catalog-menu bg-light" style="width: auto;">
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 30em;">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <div class="d-flex">
+            <input class="form-control me-2 search-prod" value="" type="search" placeholder="Найти" aria-label="Search" style="width: 30em;">
+            <button onclick="Search(1)" class="btn btn-outline-success btn-search-prod">Найти</button>
+        </div>
         <h2 style="padding-top: 1em;">Одежда и обувь</h2>
         <ul class="main-nav clearfix bg-light catalog-menu-3" style="padding-top: 0.5em;">
             <li><h4>Женщинам</h4></li>

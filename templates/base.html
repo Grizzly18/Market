@@ -18,10 +18,10 @@
               <button onclick="myFunction()" class="btn btn-link dropbtn" id="catalog">Каталог</button>
               <div class="dropdown-content bg-light" id="myDropdown" style="width: 1040px;">
                 <div class="catalog-menu bg-light">
-                  <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 30em;">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                  </form>
+                  <div class="d-flex">
+                    <input class="form-control me-2 search-prod" value="" type="search" placeholder="Найти" aria-label="Search" style="width: 30em;">
+                    <button onclick="Search(0)" class="btn btn-outline-success btn-search-prod">Найти</button>
+                  </div>
                   <h2 style="padding-top: 1em;">Одежда и обувь</h2>
                   <ul class="main-nav clearfix bg-light catalog-menu-2" style="padding-top: 0.5em;">
                     <li><h4>Женщинам</h4></li>
@@ -144,6 +144,7 @@
     </main>
   </body>
   <script src="/static/js/base.js"></script>
+  <script src="/static/js/SearchProduct.js"></script>
   <script src="/static/assets/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

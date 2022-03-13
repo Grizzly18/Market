@@ -3,10 +3,10 @@
 {% block content %}
 <div class="album py-5 bg-light" style="height: auto;">
     <div class="catalog-menu bg-light" style="width: auto;">
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 30em;">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <div class="d-flex">
+            <input class="form-control me-2 search-prod" value="" type="search" placeholder="Найти" aria-label="Search" style="width: 30em;">
+            <button onclick="Search(1)" class="btn btn-outline-success btn-search-prod">Найти</button>
+        </div>
         <div class="product-page">
             <div class="left-info">
                 <form action="" method="post">
@@ -29,7 +29,7 @@
                     <input class="form-control me-2" type="search" placeholder="От" aria-label="Search" style="width: 8em; margin: 0; display: inline-block;">
                     <input class="form-control me-2" type="search" placeholder="До" aria-label="Search" style="width: 8em; margin: 0; display: inline-block;">
                 </form>
-                <button class="btn btn-outline-success" type="submit" style="margin: auto; margin-top: 3em; display: block;">Найти</button>
+                <button onclick="FindProduct()" class="btn btn-outline-success" type="submit" style="margin: auto; margin-top: 3em; display: block;">Найти</button>
             </div>
             <div class="card-row" style="min-width: 400px; flex-grow: 3;">
                 {% for card in cards %}  
@@ -51,4 +51,6 @@
         </div>
     </div>
 </div>
+<script src="/static/js/AddFavorite.js"></script>
+<script src="/static/js/FindProduct.js"></script>
 {% endblock %}

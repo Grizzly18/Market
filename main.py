@@ -96,8 +96,9 @@ def profile():
     return render_template("profile.html", title='Профиль')
 
 
-@app.route("/search/q=<string:product>")
+@app.route("/search/q=<product>")
 def search(product):
+    print(1)
     return render_template("product.html", title=product, cards=add_db(parser(product=product)))
 
 

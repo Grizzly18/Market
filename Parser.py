@@ -34,12 +34,18 @@ def sneakerhead(product):
     return result
 
 
-def lamoda(product, sort=None, male=None): # &page=2
+def lamoda(product, sort=None, male=None, size=None, brand=None, price=None): # &page=2
     link = f"https://www.lamoda.ru//catalogsearch/result/?q={product}"
     if (male is not None):
         link += f"&gender_section={male}&multigender_page=1"
     if (sort is not None): # discount - скидка;  price_desc - по убыванию цен; price_asc - по возрастанию цен
         link += f"&sort={sort}"
+    if (size is not None):
+        link += f"&size_values={size}"
+    if (brand is not None):
+        link += f"&size_values={size}"
+    if (price is not None):
+        link += f"&price={price}" #21360,112840
     response = requests.get(link, timeout=1)
     soup = BS(response.content, "lxml")
     result = []
@@ -109,7 +115,7 @@ def popular(count=5):
     p = []
     req = []
     while (len(p) < count):
-        res = random.randint(1, 4)
+        res = random.randint(1, 2)
         prod = random.randint(0, len(prods) - 1)
         if (res, prod, ) in req:
             continue
@@ -118,7 +124,7 @@ def popular(count=5):
             if res == 1:
                 p += lamoda(prods[random.randint(0, len(prods) - 1)])
             if res == 2:
-                p += asos(prods[random.randint(0, len(prods) - 1)])
+                p += sneakerhead(prods[random.randint(0, len(prods) - 1)])
             if res == 3:
                 p += superstep(prods[random.randint(0, len(prods) - 1)])
             if res == 4:
@@ -134,16 +140,16 @@ def parser(product, count=20):
     while (len(p) < count):
         if ((datetime.now() - time).seconds > 8):
             return "К сожалению, мы ничего не смогли найти"
-        res = random.randint(1, 4)
+        res = random.randint(1, 2)
         try:
             if res == 1:
                 p += lamoda(product)
             if res == 2:
-                p += asos(product)
+                p += sneakerhead(product)
             if res == 3:
                 p += superstep(product)
             if res == 4:
-                p += sneakerhead(product)
+                p += asos(product)
         except Exception:
             pass
     return p
