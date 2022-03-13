@@ -83,6 +83,14 @@ def main_page():
     return render_template("main.html", title='Главная страница', cards=popular()[:5])
 
 
+@app.route("/add-favorite", methods=['GET', 'POST'])
+def add_favorite():
+    if (flask.request.method == 'POST'):
+        print(flask.request.data.decode())
+        print(1)
+    return render_template("main.html",  title="Избранное", cards=parser(product="рюкзак"))
+
+
 @app.route("/favorite")
 def favorite():
     return render_template("favorite.html",  title="Избранное", cards=parser(product="рюкзак"))

@@ -1,20 +1,16 @@
 from math import prod
+from unittest import result
 import requests
 from translate import Translator
 from bs4 import BeautifulSoup as BS
 import urllib.request
 import random
+from datetime import datetime
+import threading
 
 translator = Translator(from_lang="russian",to_lang="english")
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 Edg/87.0.664.75'
-}
-
-
-# список прокси-серверов
-proxies = {
-  'http': 'http://203.34.28.71:80',
-  'https': 'http://195.174.34.57:10001',
 }
 
 
@@ -113,17 +109,18 @@ def asos(product): # НА АНГЛИЙСКОМ
 def popular():
     prods = ["Верхнаяя одежда", "Спортивная одежда", "Обувь", "Футболки и майки", "Платье", "Водолазки"]
     p = []
-    while (len(p) < 4):
+    while (len(p) < 5):
         res = random.randint(1, 4)
         if res == 1:
-            p = lamoda(prods[random.randint(0, len(prods) - 1)])
+            p += lamoda(prods[random.randint(0, len(prods) - 1)])
         if res == 2:
-            p = asos(prods[random.randint(0, len(prods) - 1)])
+            p += asos(prods[random.randint(0, len(prods) - 1)])
         if res == 3:
-            p = superstep(prods[random.randint(0, len(prods) - 1)])
+            p += superstep(prods[random.randint(0, len(prods) - 1)])
         if res == 4:
-            p = sneakerhead(prods[random.randint(0, len(prods) - 1)])
+            p += sneakerhead(prods[random.randint(0, len(prods) - 1)])
     return p
 
 def parser(product):
     return lamoda(product)
+

@@ -67,9 +67,8 @@
           <p class="card-text">{{ card[1] }} <br> <small>{{ card[4] }}</small></p>
           <div class="d-flex justify-content-between align-items-center">
             <a href={{card[3]}} class="btn btn-sm btn-outline-secondary">Подробнее</a>
-            <form action="" method="post">
-              <button type="submit" class="btn" value={{card[3]}}><ion-icon size="large" name="heart-outline"></ion-icon></button>
-            </form>
+            <input type="text" name="url" value={{card[3]}} style="display: none;">
+            <button type="submit" class="btn send-card" value={{card}}><ion-icon size="large" name="heart-outline"></ion-icon></button>
           </div>
         </div>
       </div>
@@ -155,5 +154,20 @@
     let article2 = b2.getElementsByClassName('shadow-sm')[0];
     article2.style.display = 'none';
   } 
+
+
+  let btns = document.getElementsByClassName('send-card');
+
+  function sendData( data ) {
+    const XHR = new XMLHttpRequest();
+    XHR.open( 'POST', 'http://127.0.0.1:5000/add-favorite' );
+    XHR.send( data );
+  }
+  
+  for (let i = 0; i < btns.length; i++) {
+    btns[i].addEventListener( 'click', function() {
+      sendData(  btns[i].getAttribute('value') );
+    } )
+  }
 </script>
 {% endblock %}
