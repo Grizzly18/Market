@@ -34,15 +34,13 @@ def sneakerhead(product):
     return result
 
 
-def lamoda(product, sort=None, male=None, size=None, brand=None, price=None): # &page=2
+def lamoda(product, sort=None, male=None, size=None, price=None): # &page=2
     link = f"https://www.lamoda.ru//catalogsearch/result/?q={product}"
     if (male is not None):
         link += f"&gender_section={male}&multigender_page=1"
     if (sort is not None): # discount - скидка;  price_desc - по убыванию цен; price_asc - по возрастанию цен
         link += f"&sort={sort}"
     if (size is not None):
-        link += f"&size_values={size}"
-    if (brand is not None):
         link += f"&size_values={size}"
     if (price is not None):
         link += f"&price={price}" #21360,112840
@@ -134,7 +132,9 @@ def popular(count=5):
     return p
 
 
-def parser(product, count=20):
+def parser(product, count=20, sort=None, male=None, size=None, price=None, brand=None):
+    if (brand is not None):
+        product += f" {brand}"
     time = datetime.now()
     p =  []
     while (len(p) < count):
@@ -143,7 +143,7 @@ def parser(product, count=20):
         res = random.randint(1, 2)
         try:
             if res == 1:
-                p += lamoda(product)
+                p += lamoda(product, sort=sort, male=male, size=size, price=price)
             if res == 2:
                 p += sneakerhead(product)
             if res == 3:

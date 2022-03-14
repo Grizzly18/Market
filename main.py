@@ -1,3 +1,4 @@
+from sre_constants import BRANCH
 import flask
 from flask import Flask, make_response, render_template, redirect, flash
 from data import db_session
@@ -11,7 +12,7 @@ from forms.user import RegisterForm
 from data.autor import LoginForm
 from data.product import Product
 from Parser import parser, popular
-from functions import add_db
+from functions import add_db, get_normal_url_for_product
 
 
 app = Flask(__name__)
@@ -98,8 +99,9 @@ def profile():
 
 @app.route("/search/q=<product>")
 def search(product):
-    print(1)
-    return render_template("product.html", title=product, cards=add_db(parser(product=product)))
+    product = get_normal_url_for_product(product)
+    return render_template("product.html", title="Результаты поиска", cards=add_db(parser(product=product[0], 
+                           sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5])))
 
 
 @app.route("/")
