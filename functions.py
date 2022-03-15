@@ -39,3 +39,11 @@ def get_normal_url_for_product(url):
         if "brand" in url[i]:
             brand = url[i].split('=')[1]
     return (product, sort, male, size, price, brand)
+
+
+def price_to_int(a):
+    return int(a[:-1].replace(" ", ""))
+
+
+def sort_cards(x):
+    return price_to_int(x[1].replace("\xa0", ''))

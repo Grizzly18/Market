@@ -12,7 +12,7 @@ from forms.user import RegisterForm
 from data.autor import LoginForm
 from data.product import Product
 from Parser import parser, popular
-from functions import add_db, get_normal_url_for_product
+from functions import add_db, get_normal_url_for_product, price_to_int, sort_cards
 
 
 app = Flask(__name__)
@@ -100,8 +100,17 @@ def profile():
 @app.route("/search/q=<product>")
 def search(product):
     product = get_normal_url_for_product(product)
-    return render_template("product.html", title="Результаты поиска", cards=add_db(parser(product=product[0], 
-                           sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5])))
+    if (product[1] is not None):
+        cards = add_db(parser(product=product[0], 
+                            sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5]))
+        if product[1] == "price_asc":
+            new_cards = sorted(cards, key=sort_cards)
+        else:
+            new_cards = sorted(cards, key=sort_cards, reverse=True)
+        return render_template("product.html", title="Результаты поиска", cards=new_cards)
+    else:
+        return render_template("product.html", title="Результаты поиска", cards=add_db(parser(product=product[0], 
+                            sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5])))
 
 
 @app.route("/")
@@ -111,7 +120,6 @@ def main_page():
     try:
         db_sess = db_session.create_session()
         s = db_sess.query(History).filter(History.user_id == current_user.id).first().History.split(',')
-        print(s)
         if s != ['']:
             historycards = add_db(parser(s[-1])[:5])
         if len(historycards) < 5:

@@ -1,11 +1,20 @@
 function FindProduct() {
     let res = [];
     res.push( window.location.pathname.split("&")[0].split('=')[1]);
-    res.push(  "brand=" + document.getElementsByClassName('brand-for-product')[0].value )
-    let radio_btns = document.getElementsByClassName('radio-for-product');
-    for (let i = 0; i < radio_btns.length; i++){
-        if (radio_btns[i].checked){
-            res.push( "size=" + radio_btns[i].value );
+    if (document.getElementsByClassName('brand-for-product')[0].value.length > 0){
+        res.push(  "brand=" + document.getElementsByClassName('brand-for-product')[0].value )
+    }
+    let radio_sort_btns = document.getElementsByClassName('radio-sort-product');
+    for (let i = 0; i < radio_sort_btns.length; i++){
+        if (radio_sort_btns[i].checked){
+            res.push( "sort=" + radio_sort_btns[i].value );
+            break;
+        }
+    }
+    let radio_size_btns = document.getElementsByClassName('radio-for-product');
+    for (let i = 0; i < radio_size_btns.length; i++){
+        if (radio_size_btns[i].checked){
+            res.push( "size=" + radio_size_btns[i].value );
             break;
         }
     }

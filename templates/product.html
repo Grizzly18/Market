@@ -3,10 +3,6 @@
 {% block content %}
 <div class="album py-5 bg-light" style="height: auto;">
     <div class="catalog-menu bg-light" style="width: auto;">
-        <div class="d-flex">
-            <input class="form-control me-2 search-prod" value="" type="search" placeholder="Найти" aria-label="Search" style="width: 30em;">
-            <button onclick="Search(1)" class="btn btn-outline-success btn-search-prod">Найти</button>
-        </div>
         <div class="product-page">
             <div class="left-info">
                 <form action="" method="post">
@@ -26,27 +22,39 @@
                         </div>
                     </div>
                     <h5>Цена, ₽</h5>
-                    <input class="form-control me-2, price-from-prod" value="" type="search" placeholder="От" aria-label="Search" style="width: 8em; margin: 0; display: inline-block;">
-                    <input class="form-control me-2 price-to-prod" value="" type="search" placeholder="До" aria-label="Search" style="width: 8em; margin: 0; display: inline-block;">
+                    <input class="form-control me-2, price-from-prod" value="300" type="search" placeholder="От" aria-label="Search" style="width: 8em; margin: 0; display: inline-block;">
+                    <input class="form-control me-2 price-to-prod" value="200000" type="search" placeholder="До" aria-label="Search" style="width: 8em; margin: 0; display: inline-block;">
                 </form>
-                <button onclick="FindProduct()" class="btn btn-outline-success" type="submit" style="margin: auto; margin-top: 3em; display: block;">Найти</button>
+                <div class="radio-maker">
+                    <div style="margin: 1em;">
+                        <input type="radio" id="price-up" name="sort" style="margin-bottom: 1em;" value="price_asc" class="radio-sort-product">
+                        <label for="price-up" style="margin-bottom: 1em;">По возрастнию цены</label><br>
+                        <input type="radio" id="price-down" name="sort" value="price_desc" class="radio-sort-product">
+                        <label for="price-down">По убыванию цены</label>
+                    </div>
+                </div>
+                <button onclick="FindProduct()" class="btn btn-outline-success" type="submit" style="margin: auto; margin-top: 2em; display: block;">Найти</button>
             </div>
             <div class="card-row" style="min-width: 400px; flex-grow: 3;">
-                {% for card in cards %}  
-                    <div>
-                    <div class="card shadow-sm" style="width: 15rem; margin-right: 1em;">
-                        <img src={{card[0]}} class="card-img-top" alt="...">
-                        <div class="card-body">
-                        <h5 class="card-title">{{ card[2] }}</h5>
-                        <p class="card-text">{{ card[1] }} <br> <small>{{ card[4] }}</small></p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href={{card[3]}} class="btn btn-sm btn-outline-secondary">Подробнее</a>
-                            <button type="submit" class="btn send-card" value={{card[5]}}><ion-icon size="large" name="heart-outline"></ion-icon></button>
+                {% if cards == "К сожалению, мы ничего не смогли найти" %}
+                <h1>К сожалению, мы ничего не смогли найти</h1>
+                {% else %}
+                    {% for card in cards %}  
+                        <div>
+                        <div class="card shadow-sm" style="width: 15rem; margin-right: 1em;">
+                            <img src={{card[0]}} class="card-img-top" alt="...">
+                            <div class="card-body">
+                            <h5 class="card-title">{{ card[2] }}</h5>
+                            <p class="card-text">{{ card[1] }} <br> <small>{{ card[4] }}</small></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href={{card[3]}} class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                <button type="submit" class="btn send-card" value={{card[5]}}><ion-icon size="large" name="heart-outline"></ion-icon></button>
+                            </div>
+                            </div>
                         </div>
                         </div>
-                    </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

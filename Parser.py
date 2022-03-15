@@ -3,6 +3,7 @@ from translate import Translator
 from bs4 import BeautifulSoup as BS
 import urllib.request
 import random
+from functions import price_to_int
 from datetime import datetime
 
 translator = Translator(from_lang="russian",to_lang="english")
@@ -18,17 +19,21 @@ def load_img_from_web(link_web, link_img):
     out.close()
 
 
-def sneakerhead(product):
+def sneakerhead(product, price=None):
     link = f"https://sneakerhead.ru/search/?q={product}"
     response = requests.get(link, headers=HEADERS, timeout=1)
     soup = BS(response.content, "lxml")
     result = []
+    if (price is not None):
+        from_prc, to_prc = price.split(',')
     for el in soup.select(".product-cards__item"):
         try:
-            result.append(("https://sneakerhead.ru" + el.select("img")[1]['src'], el.select(".product-card__price-value")[0].text.strip(), 
-                        el.select(".product-card__link")[0].text.strip(), 
-                        "https://sneakerhead.ru" + el.select(".product-card__link")[0]['href'],
-                        "sneakerhead"))
+            prc = el.select(".product-card__price-value")[0].text.strip()
+            if (price is None or (int(from_prc) <= price_to_int(prc.replace("\xa0", '')) <= int(to_prc))):
+                result.append(("https://sneakerhead.ru" + el.select("img")[1]['src'], prc, 
+                            el.select(".product-card__link")[0].text.strip(), 
+                            "https://sneakerhead.ru" + el.select(".product-card__link")[0]['href'],
+                            "sneakerhead"))
         except Exception:
             pass
     return result
@@ -49,29 +54,17 @@ def lamoda(product, sort=None, male=None, size=None, price=None): # &page=2
     result = []
     for el in soup.select(".x-product-card__card"):
         try:
-            result.append((el.select("img")[0]['src'], el.select("span")[0].text, 
+            try:
+                prc = el.select("span")[1].text
+            except Exception:
+                prc = el.select("span")[0].text
+            result.append((el.select("img")[0]['src'], prc, 
                         el.select(".x-product-card-description__brand-name")[0].text + " " + el.select(".x-product-card-description__product-name")[0].text, 
                         "https://www.lamoda.ru" + el.select("a")[0]['href'],
                         "lamoda"))
         except Exception:
             pass
     return result
-
-
-# ПРОБЛЕМА
-# def street_beat(product):
-#     link = f"https://street-beat.ru/cat/?q={product}"
-#     response = requests.get(link, headers=HEADERS)
-#     soup = BS(response.content, "lxml")
-#     result = []
-#     for el in soup.select(".product-container__standard"):
-#         try:
-#             result.append((el.select("img")[0]['src'], el.select("span")[0].text, 
-#                         el.select(".product-card__info")[0].text, 
-#                         "https://street-beat.ru/" + el.select("a")[0]['href']))
-#         except Exception:
-#             pass
-#     return result
 
 
 def superstep(product):
@@ -137,15 +130,14 @@ def parser(product, count=20, sort=None, male=None, size=None, price=None, brand
         product += f" {brand}"
     time = datetime.now()
     p =  []
-    while (len(p) < count):
+    for res in range(3):
         if ((datetime.now() - time).seconds > 8):
             return "К сожалению, мы ничего не смогли найти"
-        res = random.randint(1, 2)
         try:
             if res == 1:
                 p += lamoda(product, sort=sort, male=male, size=size, price=price)
             if res == 2:
-                p += sneakerhead(product)
+                p += sneakerhead(product, price=price)
             if res == 3:
                 p += superstep(product)
             if res == 4:
@@ -153,3 +145,4 @@ def parser(product, count=20, sort=None, male=None, size=None, price=None, brand
         except Exception:
             pass
     return p
+
