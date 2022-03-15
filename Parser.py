@@ -1,4 +1,5 @@
 import requests
+import base64
 from translate import Translator
 from bs4 import BeautifulSoup as BS
 import urllib.request
@@ -67,6 +68,29 @@ def lamoda(product, sort=None, male=None, size=None, price=None): # &page=2
     return result
 
 
+def puma(product, sort=None, price=None):
+    link = f"https://ru.puma.com/catalogsearch/result/?q={product}"
+    if (sort is not None and sort == "price_desc"):
+        link += f"&product_list_order=price&product_list_dir=asc"
+    if (sort is not None and sort == "price_asc"):
+        link += "&product_list_order=position&product_list_dir=asc"
+    if (price is not None):
+        from_prc, to_prc = price.split(',')
+    response = requests.get(link, headers=HEADERS)
+    soup = BS(response.content, "lxml")
+    result = []
+    for el in soup.select(".grid__item"):
+        try:
+            prc = el.select(".price-wrapper span")[0].text.replace("\xa0", '')
+            if (price is None or (int(from_prc) <= price_to_int(prc) <= int(to_prc))):
+                result.append((el.select("img")[0]['src'], el.select(".price-wrapper span")[0].text.replace("\xa0", ''), 
+                            el.select(".product-item__name")[0].text, 
+                            el.select("a")[0]['href'], "puma"))
+        except Exception:
+            pass
+    return result
+
+
 def superstep(product):
     link = f"https://superstep.ru/catalog/?q={product}"
     response = requests.get(link, headers=HEADERS, timeout=1)
@@ -81,6 +105,8 @@ def superstep(product):
         except Exception:
             pass
     return result
+
+
 
 
 def asos(product): # НА АНГЛИЙСКОМ
@@ -106,7 +132,7 @@ def popular(count=5):
     p = []
     req = []
     while (len(p) < count):
-        res = random.randint(1, 2)
+        res = random.randint(1, 3)
         prod = random.randint(0, len(prods) - 1)
         if (res, prod, ) in req:
             continue
@@ -117,9 +143,9 @@ def popular(count=5):
             if res == 2:
                 p += sneakerhead(prods[random.randint(0, len(prods) - 1)])
             if res == 3:
-                p += superstep(prods[random.randint(0, len(prods) - 1)])
+                p += puma(prods[random.randint(0, len(prods) - 1)])
             if res == 4:
-                p += sneakerhead(prods[random.randint(0, len(prods) - 1)])
+                p += superstep(prods[random.randint(0, len(prods) - 1)])
         except Exception:
             pass
     return p
@@ -130,7 +156,7 @@ def parser(product, count=20, sort=None, male=None, size=None, price=None, brand
         product += f" {brand}"
     time = datetime.now()
     p =  []
-    for res in range(3):
+    for res in range(4):
         if ((datetime.now() - time).seconds > 8):
             return "К сожалению, мы ничего не смогли найти"
         try:
@@ -139,10 +165,18 @@ def parser(product, count=20, sort=None, male=None, size=None, price=None, brand
             if res == 2:
                 p += sneakerhead(product, price=price)
             if res == 3:
-                p += superstep(product)
+                p += puma(product, sort=sort, price=price)
             if res == 4:
-                p += asos(product)
+                p += superstep(product)
         except Exception:
             pass
     return p
 
+
+# print(puma('рюкзак'))
+# data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
+# string = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+# string = string.split('base64,')[1]
+# decoded = base64.decodebytes(string.encode("ascii"))
+# with open('output.gif', 'wb') as f:
+#     f.write(decoded)

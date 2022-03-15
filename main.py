@@ -1,5 +1,5 @@
-from sre_constants import BRANCH
 import flask
+import random
 from flask import Flask, make_response, render_template, redirect, flash
 from data import db_session
 from sqlalchemy import update
@@ -100,6 +100,16 @@ def profile():
 @app.route("/search/q=<product>")
 def search(product):
     product = get_normal_url_for_product(product)
+    try:
+        db_sess = db_session.create_session()
+        s = db_sess.query(History).filter(History.user_id == current_user.id).first()
+        t = product[0]
+        if t not in s.History:
+            s.History = (s.History + f",{t}").lstrip(',')
+            db_sess.commit()
+    except Exception:
+        pass
+
     if (product[1] is not None):
         cards = add_db(parser(product=product[0], 
                             sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5]))
@@ -121,7 +131,8 @@ def main_page():
         db_sess = db_session.create_session()
         s = db_sess.query(History).filter(History.user_id == current_user.id).first().History.split(',')
         if s != ['']:
-            historycards = add_db(parser(s[-1])[:5])
+            rt = random.randint(0, len(s) - 1)
+            historycards = add_db(parser(s[rt])[:5])
         if len(historycards) < 5:
             historycards = cards
     except:

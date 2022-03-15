@@ -35,10 +35,10 @@
                 </div>
                 <button onclick="FindProduct()" class="btn btn-outline-success" type="submit" style="margin: auto; margin-top: 2em; display: block;">Найти</button>
             </div>
-            <div class="card-row" style="min-width: 400px; flex-grow: 3;">
-                {% if cards == "К сожалению, мы ничего не смогли найти" %}
-                <h1>К сожалению, мы ничего не смогли найти</h1>
-                {% else %}
+            {% if cards == "К сожалению, мы ничего не смогли найти" or cards == [] %}
+                <h1 class="album-title" style="color: black; font-size: 4em; margin-top: 3em;">К сожалению, мы ничего не смогли найти</h1>
+            {% else %}
+                <div class="card-row" style="min-width: 400px; flex-grow: 3;">
                     {% for card in cards %}  
                         <div>
                         <div class="card shadow-sm" style="width: 15rem; margin-right: 1em;">
@@ -54,8 +54,8 @@
                         </div>
                         </div>
                     {% endfor %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
