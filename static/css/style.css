@@ -116,6 +116,12 @@ body {
   min-height: 1040px;
 }
 
+.profile-content {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
 .login {
   float: right;
   margin-right: 1em;
@@ -187,7 +193,6 @@ body {
 }
 
 .dropdown-content-login a {
-  width: auto;
   text-align: center;
 }
 
