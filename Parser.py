@@ -80,9 +80,11 @@ def puma(product, sort=None, price=None):
     soup = BS(response.content, "lxml")
     result = []
     for el in soup.select(".grid__item"):
+        # НЕ БЕРУ ФОТО В ФОРМАТЕ BASE64
         try:
             prc = el.select(".price-wrapper span")[0].text.replace("\xa0", '')
-            if (price is None or (int(from_prc) <= price_to_int(prc) <= int(to_prc))):
+            img = el.select("img")[0]['src']
+            if ((price is None or (int(from_prc) <= price_to_int(prc) <= int(to_prc))) and "base64" not in img):
                 result.append((el.select("img")[0]['src'], el.select(".price-wrapper span")[0].text.replace("\xa0", ''), 
                             el.select(".product-item__name")[0].text, 
                             el.select("a")[0]['href'], "puma"))
@@ -171,12 +173,3 @@ def parser(product, count=20, sort=None, male=None, size=None, price=None, brand
         except Exception:
             pass
     return p
-
-
-# print(puma('рюкзак'))
-# data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
-# string = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-# string = string.split('base64,')[1]
-# decoded = base64.decodebytes(string.encode("ascii"))
-# with open('output.gif', 'wb') as f:
-#     f.write(decoded)

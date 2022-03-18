@@ -10,6 +10,7 @@ from data.favorite import Favorite
 from data.users import User
 from forms.user import RegisterForm
 from data.autor import LoginForm
+from data.change_profile import ChangeForm
 from data.product import Product
 from Parser import parser, popular
 from functions import add_db, get_normal_url_for_product, price_to_int, sort_cards
@@ -40,6 +41,25 @@ def login():
     return render_template('login.html', title='Authorization', form=form)
 
 
+@app.route('/change-profile', methods=['GET', 'POST'])
+def change_profile():
+    form = ChangeForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        if user and user.check_password(form.password.data):
+            if form.email.data is not None:
+                user.email = form.email.data
+            if form.newpassword.data is not None:
+                user.set_password(form.newpassword.data)
+            if form.about.data is not None:
+                user.about = form.email.data
+            if form.address.data is not None:
+                user.address = form.email.data
+            db_sess.commit()
+            return redirect("/")
+        return render_template('change_profile.html', message="Wrong password", form=form)
+    return render_template('change_profile.html', title='Authorization', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])

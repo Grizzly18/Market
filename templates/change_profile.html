@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="form-signin container-login text-center">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <h1>ВОЙТИ</h1>
+            <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 3em; margin-top: 2em;">
+                {{ form.email(class="form-control", type="email", id="floatingInput", placeholder="name@example.com") }}<br>
+                {% for error in form.email.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+                <label for="floatingInput">Новая почта</label>
+            </div>
+            <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 3em; margin-top: 2em;">
+                {{ form.about(class="form-control", id="floatingInput2") }}<br>
+                {% for error in form.about.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+                <label for="floatingInput2">Обо мне</label>
+            </div>
+            <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 3em; margin-top: 2em;">
+                {{ form.address(class="form-control", id="floatingInput3") }}<br>
+                {% for error in form.address.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+                <label for="floatingInput3">Адрес</label>
+            </div>
+            <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 2em;">
+                {{ form.newpassword(class="form-control", type="password", placeholder="Пароль", id="floatingPassword1") }}<br>
+                {% for error in form.newpassword.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                <label for="floatingPassword1">Новый пароль</label>
+            </div>
+            <div class="form-floating" style="margin: auto; width: 50%; margin-bottom: 2em;">
+                {{ form.password(class="form-control", type="password", placeholder="Пароль", id="floatingPassword") }}<br>
+                {% for error in form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                <label for="floatingPassword">Старый пароль</label>
+            </div>
+            {{ form.submit(type="submit", class="btn btn-lg btn-primary", style="margin: auto; width: 50%;") }}
+            <div>{{ message }}</div>
+            <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
+        </form>
+    </div>
+{% endblock %}
