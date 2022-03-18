@@ -203,12 +203,15 @@ def add_favorite():
 @app.route("/favorite")
 def favorite():
     db_sess = db_session.create_session()
-    s = db_sess.query(Favorite).filter(Favorite.user_id == current_user.id).first().FavoriteProducts.split(',')
     data = []
-    for prod in s:
-        if prod != '':
-            temp = db_sess.query(Product).filter(Product.id == prod).first()
-            data.append((temp.image, temp.price, temp.info, temp.url, temp.brand, temp.id))
+    try:
+        s = db_sess.query(Favorite).filter(Favorite.user_id == current_user.id).first().FavoriteProducts.split(',')
+        for prod in s:
+            if prod != '':
+                temp = db_sess.query(Product).filter(Product.id == prod).first()
+                data.append((temp.image, temp.price, temp.info, temp.url, temp.brand, temp.id))
+    except Exception:
+        pass
     return render_template("favorite.html",  title="Избранное", cards=data)
 
 
