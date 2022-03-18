@@ -196,6 +196,11 @@ body {
   text-align: center;
 }
 
+.round {
+  width: 300px;
+  border-radius: 150px; /* Радиус скругления */
+ }
+
 .catalog-menu-3 {
   width: 15em;
 }

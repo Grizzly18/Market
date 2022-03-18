@@ -1,9 +1,63 @@
 {% extends "base.html" %}
 
-
-
 {% block content %}
-<div class="album py-5 bg-light">
-    <h1 class="album-title">ПРОЕКТ МИХАИЛА ЖЕМЧУЖНИКОВА</h1>
+<div class="album py-5 bg-light" style="height: auto;">
+    <div class="catalog-menu bg-light" style="width: auto;">
+        <div class="product-page">
+            <div class="left-info">
+                <img src="/static/img/article-1.jpg" alt="" class="round">
+                <h1>{{ current_user.name }}</h1>
+                <div class="d-flex">
+                    <a class="firstbtn btn-quick-order" style="margin: 1em; width: 100%; display: block;" href="/favorite" class="color: red;">Изменить</a>
+                  </div>
+            </div>
+            <div class="header-top clearfix">
+                <ul class="main-nav clearfix header-info" style="padding-top: 1em;">
+                  <li><a href="/help" style="color: rgb(161, 141, 108); font-size: 1.5em; margin-left: 1em;">Избранное</a></li>
+                  <li><a href="/favorite" style="color: rgb(161, 141, 108); font-size: 1.5em; margin-left: 1em;">История поиска</a></li>
+                  <li><a href="/favorite" style="color: rgb(161, 141, 108); font-size: 1.5em; margin-left: 1em;">Обо мне</a></li>
+                </ul>
+            </div>
+            <div class="favourite-profile">
+                <div class="card-row">
+                    {% for card in favourite_cards %}  
+                    <div>
+                        <div class="card shadow-sm" style="width: 15rem; margin-right: 1em;">
+                        <img src={{card[0]}} class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ card[2] }}</h5>
+                            <p class="card-text">{{ card[1] }} <br> <small>{{ card[4] }}</small></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href={{card[3]}} class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                <button type="submit" class="btn send-card" value={{card[5]}}><ion-icon size="large" name="heart"></ion-icon></button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="requests-profile">
+                <div class="card-row">
+                    {% for card in requests_cards %}  
+                    <div>
+                        <div class="card shadow-sm" style="width: 15rem; margin-right: 1em;">
+                        <img src={{card[0]}} class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ card[2] }}</h5>
+                            <p class="card-text">{{ card[1] }} <br> <small>{{ card[4] }}</small></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href={{card[3]}} class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                <button type="submit" class="btn send-card" value={{card[5]}}><ion-icon size="large" name="heart"></ion-icon></button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="/static/js/profile.js"></script>
 {% endblock %}

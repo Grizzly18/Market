@@ -94,7 +94,7 @@ def catalog():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html", title='Профиль')
+    return render_template("profile.html", title='Профиль', favourite_cards=[], requests_cards=[])
 
 
 @app.route("/search/q=<product>")
