@@ -94,7 +94,15 @@ def catalog():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html", title='Профиль', favourite_cards=[], requests_cards=[])
+    db_sess = db_session.create_session()
+    s = db_sess.query(Favorite).filter(Favorite.user_id == current_user.id).first().FavoriteProducts.split(',')
+    data = []
+    for prod in s:
+        if prod != '':
+            temp = db_sess.query(Product).filter(Product.id == prod).first()
+            data.append((temp.image, temp.price, temp.info, temp.url, temp.brand, temp.id))
+    req = db_sess.query(History).filter(History.user_id == current_user.id).first().History.split(',')
+    return render_template("profile.html", title='Профиль', favourite_cards=data, requests_cards=req)
 
 
 @app.route("/search/q=<product>")

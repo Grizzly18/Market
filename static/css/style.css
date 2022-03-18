@@ -9,7 +9,19 @@ body {
   background-color: rgb(36, 36, 36);
 }
 
+.hidden {
+  display: none;
+}
 
+.btn-for-profile {
+  outline: none; /* Для синий ободки */
+  border: 0;
+  background: transparent;
+}
+
+.btn-for-profile:hover {
+  text-decoration: underline;
+}
 
 .clearfix::after {
   content: "";
