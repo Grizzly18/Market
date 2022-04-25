@@ -28,7 +28,7 @@ def add_db(data):
 
 def get_normal_url_for_product(url):
     url = url.split("&")
-    product, sort, male, size, price, brand = url[0], None, None, None, None, None
+    product, sort, male, size, price, brand, format = url[0], None, None, None, None, None, None
     for i in range(1, len(url)):
         if "sort" in url[i]:
             sort = url[i].split('=')[1]
@@ -38,7 +38,9 @@ def get_normal_url_for_product(url):
             price = url[i].split('=')[1]
         if "brand" in url[i]:
             brand = url[i].split('=')[1]
-    return (product, sort, male, size, price, brand)
+        if "format" in url[i]:
+            format = url[i].split('=')[1]
+    return (product, sort, male, size, price, brand, format)
 
 
 def price_to_int(a):

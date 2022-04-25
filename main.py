@@ -1,6 +1,6 @@
 import flask
 import random
-from flask import Flask, make_response, render_template, redirect, flash
+from flask import Flask, make_response, render_template, redirect, flash, jsonify
 from data import db_session
 from sqlalchemy import update
 from requests import *
@@ -18,6 +18,7 @@ from functions import add_db, get_normal_url_for_product, price_to_int, sort_car
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['JSON_AS_ASCII'] = False
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -126,7 +127,7 @@ def profile():
 
 
 @app.route("/search/q=<product>")
-def search(product):
+def search_html(product):
     product = get_normal_url_for_product(product)
     try:
         db_sess = db_session.create_session()
@@ -145,13 +146,36 @@ def search(product):
             new_cards = sorted(cards, key=sort_cards)
         else:
             new_cards = sorted(cards, key=sort_cards, reverse=True)
+        if (product[6] == 'json'):
+            json_cards = []
+            for card in new_cards:
+                json_cards.append({
+                    'link': card[3],
+                    'price': card[1],
+                    'name': card[2],
+                    'url_image': card[0],
+                    'online store': card[4] 
+                })
+            return jsonify(json_cards)
         return render_template("product.html", title="Результаты поиска", cards=new_cards)
     else:
-        return render_template("product.html", title="Результаты поиска", cards=add_db(parser(product=product[0], 
-                            sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5])))
+        new_cards = add_db(parser(product=product[0], 
+                            sort=product[1], male=product[2], size=product[3], price=product[4], brand=product[5]))
+        if (product[6] == 'json'):
+            json_cards = []
+            for card in new_cards:
+                json_cards.append({
+                    'link': card[3],
+                    'price': card[1],
+                    'name': card[2],
+                    'url_image': card[0],
+                    'online store': card[4] 
+                })
+            return jsonify(json_cards)
+        return render_template("product.html", title="Результаты поиска", cards=new_cards)
 
 
-@app.route("/")
+
 def main_page():
     cards = add_db(popular()[:5])
     historycards = []
@@ -165,7 +189,30 @@ def main_page():
             historycards = cards
     except:
         historycards = cards
-    return render_template("main.html", title='Главная страница', cards=cards, historycards=historycards)
+    return (cards, historycards)
+
+
+@app.route("/<format>")
+def main_page_json(format):
+    cards = main_page()
+    if (format.split('=')[1] == 'json'):
+        json_cards = []
+        for card in cards[0]:
+            json_cards.append({
+                'link': card[3],
+                'price': card[1],
+                'name': card[2],
+                'url_image': card[0],
+                'online store': card[4] 
+            })
+        return jsonify(json_cards)
+    return render_template("main.html", title='Главная страница', cards=cards[0], historycards=cards[1])
+
+
+@app.route("/")
+def main_page_html():
+    cards = main_page()
+    return render_template("main.html", title='Главная страница', cards=cards[0], historycards=cards[1])
 
 
 @app.route("/delete-favorite", methods=['GET', 'POST'])
