@@ -49,14 +49,14 @@ def change_profile():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == current_user.id).first()
         if user and user.check_password(form.password.data):
-            if form.email.data is not None:
+            if len(form.email.data) >= 1:
                 user.email = form.email.data
-            if form.newpassword.data is not None:
+            if len(form.newpassword.data) >= 1:
                 user.set_password(form.newpassword.data)
-            if form.about.data is not None:
-                user.about = form.email.data
-            if form.address.data is not None:
-                user.address = form.email.data
+            if len(form.about.data) >= 1:
+                user.about = form.about.data
+            if len(form.address.data) > 1:
+                user.address = form.address.data
             db_sess.commit()
             return redirect("/")
         return render_template('change_profile.html', message="Wrong password", form=form)
@@ -195,7 +195,7 @@ def main_page():
 @app.route("/<format>")
 def main_page_json(format):
     cards = main_page()
-    if (format.split('=')[1] == 'json'):
+    if (len(format.split('=')) > 1 and format.split('=')[1] == 'json'):
         json_cards = []
         for card in cards[0]:
             json_cards.append({
