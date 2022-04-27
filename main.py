@@ -29,6 +29,11 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
